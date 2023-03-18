@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from fakenews.controllers import site
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', site.login),
+    path('signup/', site.signup),
 ]
