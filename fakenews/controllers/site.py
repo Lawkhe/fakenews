@@ -3,36 +3,57 @@ from django.views.decorators.cache import never_cache
 from django.http import HttpResponseRedirect
 from fakenews.encrypt import Encrypt
 from fakenews.models import Rol, User
+import requests
+import json
 
 @never_cache
 def login(request, code=None):
+    # Valida si ya inicio sesión
+    if 'user' in request.session:
+        return HttpResponseRedirect("/index/")
     response = {}
+    response['email'] = ''
     if request.method == "POST":
         data = request.POST
         if 'password' in data and 'email' in data:
             if data['email'] != '' and data['password'] != '':
                 password = data['password']
                 email = data['email']
-                try:
-                    user_val = User.objects.get(email=email)
-                    if Encrypt().verify(password, user_val.password):
-                        response['status'] = 'success'
-                        response['message'] = 'Login exitoso'
-                        request.session['user'] = {
-                            'id': user_val.id,
-                            'name': user_val.name,
-                            'email': user_val.email,
-                            'rol': user_val.rol_id,
-                            'rol_name': user_val.rol.name,
-                        }
-                        response['session'] = request.session['user']
-                        return HttpResponseRedirect('/index/')
-                    else:
-                        response['status'] = 'fail'
-                        response['message'] = 'Clave incorrecta'
-                except User.DoesNotExist:
-                    response['status'] = 'fail'
-                    response['message'] = 'El usuario no existe'  
+                response['email'] = email
+                response['status'] = 'recaptcha'
+
+                if 'g-recaptcha-response' in request.POST and request.POST['g-recaptcha-response'] != '':
+                    recaptcha = request.POST['g-recaptcha-response']
+                    url = 'https://www.google.com/recaptcha/api/siteverify'
+                    myobj = {
+                        'secret': '6LcGEholAAAAAJMPTmE1VzgEWeQk3K5OcyeU4Q-4',
+                        'response': recaptcha
+                    }
+
+                    response_google = requests.post(url, data=myobj)
+                    response_api = json.loads(response_google.text)
+
+                    if response_api['success'] == True:
+                        try:
+                            user_val = User.objects.get(email=email)
+                            if Encrypt().verify(password, user_val.password):
+                                response['status'] = 'success'
+                                response['message'] = 'Login exitoso'
+                                request.session['user'] = {
+                                    'id': user_val.id,
+                                    'name': user_val.name,
+                                    'email': user_val.email,
+                                    'rol': user_val.rol_id,
+                                    'rol_name': user_val.rol.name,
+                                }
+                                response['session'] = request.session['user']
+                                return HttpResponseRedirect('/index/')
+                            else:
+                                response['status'] = 'fail'
+                                response['message'] = 'Clave incorrecta'
+                        except User.DoesNotExist:
+                            response['status'] = 'fail'
+                            response['message'] = 'El usuario no existe' 
     elif code == 1:
         response['status'] = 'success'
         response['message'] = 'El usuario fue registrado con exito'
@@ -48,15 +69,19 @@ def logout(request):
 @never_cache
 def signup(request):
     response = {}
+    data_form =  {'name': '', 'email': ''}
     if request.method == "POST":
         data = request.POST
-        print(data['name'])
-
         if 'name' in data and 'email' in data and 'password' in data:
             if data['name'] != '' and data['email'] != '' and data['password'] != '':
                 name = data['name']
                 email = data['email']
                 password = data['password']
+
+                data_form =  {
+                    'name': name,
+                    'email': email,
+                }
 
                 # Se verifica que el usuario no exista.
                 if not User.objects.filter(email=email):
@@ -87,6 +112,7 @@ def signup(request):
                     response['status'] = 'fail'
                     response['message'] = 'El usuario ya existe'
 
+    response['data'] = data_form
     return render(request, 'site/signup.html', context=response)
 
 def index(request):

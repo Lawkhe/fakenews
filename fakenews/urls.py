@@ -20,5 +20,7 @@ from fakenews.controllers import site
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', site.login),
+    path('login/<int:code>/', site.login),
     path('signup/', site.signup),
+    path('logout/', site.logout),
 ]
