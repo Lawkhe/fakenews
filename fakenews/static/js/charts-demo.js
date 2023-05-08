@@ -106,169 +106,153 @@ var lineChartConfig = {
 
 //Bar Chart Demo
 
-var barChartConfig = {
-	type: 'bar',
+// var barChartConfig = {
+// 	type: 'bar',
 
-	data: {
-		labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-		datasets: [{
-			label: 'Dataset 1',
-			backgroundColor: "rgba(117,193,129,0.8)", 
-			hoverBackgroundColor: "rgba(117,193,129,1)",
-			
-			
-			data: [
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint()
-			]
-		}, 
-		{
-			label: 'Dataset 2',
-			backgroundColor: "rgba(91,153,234,0.8)", 
-			hoverBackgroundColor: "rgba(91,153,234,1)",
-			
-			
-			data: [
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint()
-			]
-		}
-		]
-	},
-	options: {
-		responsive: true,
-		legend: {
-			position: 'bottom',
-			align: 'end',
-		},
+// 	data: {
+// 		labels: ['Total'],
+// 		datasets: [{
+// 			label: 'Verdadero',
+// 			backgroundColor: "#4ec362", 
+// 			hoverBackgroundColor: "#4ec362",
+// 			data: [
+// 				randomDataPoint()
+// 			]
+// 		}, 
+// 		{
+// 			label: 'Falso',
+// 			backgroundColor: "#da2837", 
+// 			hoverBackgroundColor: "#da2837",
+// 			data: [
+// 				randomDataPoint()
+// 			]
+// 		}
+// 		]
+// 	},
+// 	options: {
+// 		responsive: true,
+// 		legend: {
+// 			position: 'bottom',
+// 			align: 'end',
+// 		},
 
-		tooltips: {
-			mode: 'index',
-			intersect: false,
-			titleMarginBottom: 10,
-			bodySpacing: 10,
-			xPadding: 16,
-			yPadding: 16,
-			borderColor: window.chartColors.border,
-			borderWidth: 1,
-			backgroundColor: '#fff',
-			bodyFontColor: window.chartColors.text,
-			titleFontColor: window.chartColors.text,
-			callbacks: {
-                label: function(tooltipItem, data) {	                 
-	                return tooltipItem.value + '%';   
-                }
-            },
+// 		tooltips: {
+// 			mode: 'index',
+// 			intersect: false,
+// 			titleMarginBottom: 10,
+// 			bodySpacing: 10,
+// 			xPadding: 16,
+// 			yPadding: 16,
+// 			borderColor: window.chartColors.border,
+// 			borderWidth: 1,
+// 			backgroundColor: '#fff',
+// 			bodyFontColor: window.chartColors.text,
+// 			titleFontColor: window.chartColors.text,
+// 			callbacks: {
+//                 label: function(tooltipItem, data) {	                 
+// 	                return tooltipItem.value + '%';   
+//                 }
+//             },
 			
 
-		},
-		scales: {
-			xAxes: [{
-				display: true,
-				gridLines: {
-					drawBorder: false,
-					color: window.chartColors.border,
-				},
+// 		},
+// 		scales: {
+// 			xAxes: [{
+// 				display: true,
+// 				gridLines: {
+// 					drawBorder: false,
+// 					color: window.chartColors.border,
+// 				},
 
-			}],
-			yAxes: [{
-				display: true,
-				gridLines: {
-					drawBorder: false,
-					color: window.chartColors.borders,
-				},
-				ticks: {
-		            beginAtZero: true,
-		            userCallback: function(value, index, values) {
-		                return value + '%';  
-		            }
-		        },
+// 			}],
+// 			yAxes: [{
+// 				display: true,
+// 				gridLines: {
+// 					drawBorder: false,
+// 					color: window.chartColors.borders,
+// 				},
+// 				ticks: {
+// 		            beginAtZero: true,
+// 		            userCallback: function(value, index, values) {
+// 		                return value + '%';  
+// 		            }
+// 		        },
 
 				
-			}]
-		}
+// 			}]
+// 		}
 		
-	}
-}
+// 	}
+// }
 
 
 
 // Pie Chart Demo
 
-var pieChartConfig = {
-	type: 'pie',
-	data: {
-		datasets: [{
-			data: [
-				randomDataPoint(),
-				randomDataPoint(),
-				randomDataPoint(),
-			],
-			backgroundColor: [
-				window.chartColors.green,
-				window.chartColors.blue,
-				window.chartColors.gray,
+// var pieChartConfig = {
+// 	type: 'pie',
+// 	data: {
+// 		datasets: [{
+// 			data: [
+// 				randomDataPoint(),
+// 				randomDataPoint(),
+// 				randomDataPoint(),
+// 			],
+// 			backgroundColor: [
+// 				window.chartColors.green,
+// 				window.chartColors.blue,
+// 				window.chartColors.gray,
 
-			],
-			label: 'Dataset 1'
-		}],
-		labels: [
-			'Green',
-			'Blue',
-			'Gray',
-		]
-	},
-	options: {
-		responsive: true,
-		legend: {
-			display: true,
-			position: 'bottom',
-			align: 'center',
-		},
+// 			],
+// 			label: 'Dataset 1'
+// 		}],
+// 		labels: [
+// 			'Green',
+// 			'Blue',
+// 			'Gray',
+// 		]
+// 	},
+// 	options: {
+// 		responsive: true,
+// 		legend: {
+// 			display: true,
+// 			position: 'bottom',
+// 			align: 'center',
+// 		},
 
-		tooltips: {
-			titleMarginBottom: 10,
-			bodySpacing: 10,
-			xPadding: 16,
-			yPadding: 16,
-			borderColor: window.chartColors.border,
-			borderWidth: 1,
-			backgroundColor: '#fff',
-			bodyFontColor: window.chartColors.text,
-			titleFontColor: window.chartColors.text,
+// 		tooltips: {
+// 			titleMarginBottom: 10,
+// 			bodySpacing: 10,
+// 			xPadding: 16,
+// 			yPadding: 16,
+// 			borderColor: window.chartColors.border,
+// 			borderWidth: 1,
+// 			backgroundColor: '#fff',
+// 			bodyFontColor: window.chartColors.text,
+// 			titleFontColor: window.chartColors.text,
 			
-			/* Display % in tooltip - https://stackoverflow.com/questions/37257034/chart-js-2-0-doughnut-tooltip-percentages */
-			callbacks: {
-                label: function(tooltipItem, data) {
-					//get the concerned dataset
-					var dataset = data.datasets[tooltipItem.datasetIndex];
-					//calculate the total of this data set
-					var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-					return previousValue + currentValue;
-					});
-					//get the current items value
-					var currentValue = dataset.data[tooltipItem.index];
-					//calculate the precentage based on the total and current item, also this does a rough rounding to give a whole number
-					var percentage = Math.floor(((currentValue/total) * 100)+0.5);
+// 			/* Display % in tooltip - https://stackoverflow.com/questions/37257034/chart-js-2-0-doughnut-tooltip-percentages */
+// 			callbacks: {
+//                 label: function(tooltipItem, data) {
+// 					//get the concerned dataset
+// 					var dataset = data.datasets[tooltipItem.datasetIndex];
+// 					//calculate the total of this data set
+// 					var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+// 					return previousValue + currentValue;
+// 					});
+// 					//get the current items value
+// 					var currentValue = dataset.data[tooltipItem.index];
+// 					//calculate the precentage based on the total and current item, also this does a rough rounding to give a whole number
+// 					var percentage = Math.floor(((currentValue/total) * 100)+0.5);
 					
-					return percentage + "%";
-			    },
-            },
+// 					return percentage + "%";
+// 			    },
+//             },
 			
 
-		},
-	}
-};
+// 		},
+// 	}
+// };
 
 
 // Doughnut Chart Demo
@@ -348,19 +332,16 @@ var doughnutChartConfig = {
 
 // Generate charts on load
 window.addEventListener('load', function(){
+	// var lineChart = document.getElementById('chart-line').getContext('2d');
+	// window.myLine = new Chart(lineChart, lineChartConfig);
 	
-	var lineChart = document.getElementById('chart-line').getContext('2d');
-	window.myLine = new Chart(lineChart, lineChartConfig);
+	// var barChart = document.getElementById('chart-bar').getContext('2d');
+	// window.myBar = new Chart(barChart, barChartConfig);
 	
-	var barChart = document.getElementById('chart-bar').getContext('2d');
-	window.myBar = new Chart(barChart, barChartConfig);
+	// var pieChart = document.getElementById('chart-pie').getContext('2d');
+	// window.myPie = new Chart(pieChart, pieChartConfig);
 	
-	var pieChart = document.getElementById('chart-pie').getContext('2d');
-	window.myPie = new Chart(pieChart, pieChartConfig);
-	
-	var doughnutChart = document.getElementById('chart-doughnut').getContext('2d');
-	window.myDoughnut = new Chart(doughnutChart, doughnutChartConfig);
-	
-
+	// var doughnutChart = document.getElementById('chart-doughnut').getContext('2d');
+	// window.myDoughnut = new Chart(doughnutChart, doughnutChartConfig);
 });	
 	

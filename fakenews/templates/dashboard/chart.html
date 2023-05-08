@@ -1,0 +1,333 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+
+<!-- CSS -->
+
+{% endblock %}
+{% block main %}
+
+<div class="row g-4 mb-4">
+    <div class="col-12 col-lg-6">
+        <div class="app-card app-card-chart h-100 shadow-sm">
+            <div class="app-card-header p-3 border-0">
+                <h4 class="app-card-title">Porcentaje de Noticias Falsas y Verdaderas</h4>
+            </div><!--//app-card-header-->
+            <div class="app-card-body p-4">
+                <div class="chart-container">
+                    <canvas id="chart-bar"></canvas>
+                </div>
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+    </div><!--//col-->
+
+    <div class="col-12 col-lg-6">
+        <div class="app-card app-card-chart h-100 shadow-sm">
+            <div class="app-card-header p-3 border-0">
+                <h4 class="app-card-title">Cantidad de Noticias por Tipo</h4>
+            </div><!--//app-card-header-->
+            <div class="app-card-body p-4">
+                <div class="chart-container">
+                    <canvas id="chart-pie"></canvas>
+                </div>
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+    </div><!--//col-->
+
+    <div class="col-12 col-lg-6">
+        <div class="app-card app-card-chart h-100 shadow-sm">
+            <div class="app-card-header p-3 border-0">
+                <h4 class="app-card-title">Cantidad de Noticias por Tipo</h4>
+            </div><!--//app-card-header-->
+            <div class="app-card-body p-4">
+                <div class="chart-container">
+                    <canvas id="chart-doughnut"></canvas>
+                </div>
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+    </div><!--//col-->
+
+    <div class="col-12 col-lg-6">
+        <div class="app-card app-card-stats-table h-100 shadow-sm">
+            <div class="app-card-header p-3">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-auto">
+                        <h4 class="app-card-title">Origenes Ingresados</h4>
+                    </div><!--//col-->
+                </div><!--//row-->
+            </div><!--//app-card-header-->
+            <div class="app-card-body p-3 p-lg-4">
+                <div class="table-responsive">
+                    <table class="table table-borderless mb-0">
+                        <thead>
+                            <tr>
+                                <th class="meta">Nombre</th>
+                                <th class="meta stat-cell">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="origin-body">
+                        </tbody>
+                    </table>
+                </div><!--//table-responsive-->
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+    </div><!--//col-->
+</div><!--//row-->
+
+{% endblock %}
+{% block js %}
+
+<!-- Charts JS -->
+<script src="{% static 'plugins/chart.js/chart.min.js' %}"></script>
+<script src="{% static 'js/charts-demo.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/dashboard/data/1/",
+            success: function (response) {
+
+                var true_percent = (response['data']['true'] * 100) / response['data']['total'];
+                var false_percent = (response['data']['false'] * 100) / response['data']['total'];
+
+                var barChartConfig = {
+                    type: 'bar',
+
+                    data: {
+                        labels: ['Total'],
+                        datasets: [{
+                            label: 'Verdadero',
+                            backgroundColor: "#4ec362",
+                            hoverBackgroundColor: "#4ec362",
+                            data: [
+                                true_percent
+                            ]
+                        },
+                        {
+                            label: 'Falso',
+                            backgroundColor: "#da2837",
+                            hoverBackgroundColor: "#da2837",
+                            data: [
+                                false_percent
+                            ]
+                        }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            position: 'bottom',
+                            align: 'end',
+                        },
+
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false,
+                            titleMarginBottom: 10,
+                            bodySpacing: 10,
+                            xPadding: 16,
+                            yPadding: 16,
+                            borderColor: window.chartColors.border,
+                            borderWidth: 1,
+                            backgroundColor: '#fff',
+                            bodyFontColor: window.chartColors.text,
+                            titleFontColor: window.chartColors.text,
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    return tooltipItem.value + '%';
+                                }
+                            },
+
+
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                gridLines: {
+                                    drawBorder: false,
+                                    color: window.chartColors.border,
+                                },
+
+                            }],
+                            yAxes: [{
+                                display: true,
+                                gridLines: {
+                                    drawBorder: false,
+                                    color: window.chartColors.borders,
+                                },
+                                ticks: {
+                                    beginAtZero: true,
+                                    userCallback: function (value, index, values) {
+                                        return value + '%';
+                                    }
+                                },
+                            }]
+                        }
+                    }
+                }
+
+                var barChart = document.getElementById('chart-bar').getContext('2d');
+                window.myBar = new Chart(barChart, barChartConfig);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/dashboard/data/2/",
+            success: function (response) {
+                var labels = [];
+                var values = [];
+                response['data'].forEach(element => {
+                    labels.push(element.name);
+                    values.push(element.value);
+                });
+
+                var pieChartConfig = {
+                    type: 'pie',
+                    data: {
+                        datasets: [{
+                            data: values,
+                            backgroundColor: [
+                                window.chartColors.green,
+                                window.chartColors.blue,
+                                window.chartColors.gray,
+
+                            ],
+                            label: 'Dataset 1'
+                        }],
+                        labels: labels
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            align: 'center',
+                        },
+
+                        tooltips: {
+                            titleMarginBottom: 10,
+                            bodySpacing: 10,
+                            xPadding: 16,
+                            yPadding: 16,
+                            borderColor: window.chartColors.border,
+                            borderWidth: 1,
+                            backgroundColor: '#fff',
+                            bodyFontColor: window.chartColors.text,
+                            titleFontColor: window.chartColors.text,
+
+                            /* Display % in tooltip - https://stackoverflow.com/questions/37257034/chart-js-2-0-doughnut-tooltip-percentages */
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    //get the concerned dataset
+                                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                                    //calculate the total of this data set
+                                    var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                                        return previousValue + currentValue;
+                                    });
+                                    //get the current items value
+                                    var currentValue = dataset.data[tooltipItem.index];
+                                    //calculate the precentage based on the total and current item, also this does a rough rounding to give a whole number
+                                    var percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+
+                                    return percentage + "%";
+                                },
+                            },
+                        },
+                    }
+                };
+
+                var pieChart = document.getElementById('chart-pie').getContext('2d');
+                window.myPie = new Chart(pieChart, pieChartConfig);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/dashboard/data/3/",
+            success: function (response) {
+                var content = '';
+                var labels = [];
+                var values = [];
+                response['data'].forEach(element => {
+                    labels.push(element.name);
+                    values.push(element.value);
+
+                    content += '<tr>' +
+                        '<td><a>'+ element.name +'</a></td>' +
+                        '<td class="stat-cell">'+ element.value +'</td>' +
+                    '</tr>';
+                });
+                $('#origin-body').html(content);
+
+                var doughnutChartConfig = {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: values,
+                            backgroundColor: [
+                                window.chartColors.green,
+                                window.chartColors.blue,
+                                window.chartColors.gray,
+
+                            ],
+                            label: 'Dataset 1'
+                        }],
+                        labels: labels
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            align: 'center',
+                        },
+
+                        tooltips: {
+                            titleMarginBottom: 10,
+                            bodySpacing: 10,
+                            xPadding: 16,
+                            yPadding: 16,
+                            borderColor: window.chartColors.border,
+                            borderWidth: 1,
+                            backgroundColor: '#fff',
+                            bodyFontColor: window.chartColors.text,
+                            titleFontColor: window.chartColors.text,
+                            
+                            animation: {
+                                animateScale: true,
+                                animateRotate: true
+                            },
+                            
+                            /* Display % in tooltip - https://stackoverflow.com/questions/37257034/chart-js-2-0-doughnut-tooltip-percentages */
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    //get the concerned dataset
+                                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                                    //calculate the total of this data set
+                                    var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                                    return previousValue + currentValue;
+                                    });
+                                    //get the current items value
+                                    var currentValue = dataset.data[tooltipItem.index];
+                                    //calculate the precentage based on the total and current item, also this does a rough rounding to give a whole number
+                                    var percentage = Math.floor(((currentValue/total) * 100)+0.5);
+                                    
+                                    return percentage + "%";
+                                },
+                            },
+                            
+
+                        },
+                    }
+                };
+
+                var doughnutChart = document.getElementById('chart-doughnut').getContext('2d');
+	            window.myDoughnut = new Chart(doughnutChart, doughnutChartConfig);
+            }
+        });
+    });
+</script>
+<!-- SCRIPTS -->
+
+{% endblock %}

@@ -117,8 +117,6 @@ def signup(request):
 
 def index(request):
     if 'user' in request.session:
-        if request.method == "POST":
-            print('POST ----')
         return render(request, 'site/index.html', context={'session': request.session['user']})
     else:
         return HttpResponseRedirect('/login/')

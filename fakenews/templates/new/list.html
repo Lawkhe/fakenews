@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+
+<!-- CSS -->
+
+{% endblock %}
+{% block main %}
+
+<!-- <h1 class="app-page-title">Lista de consultas</h1> -->
+
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+    <div class="col-auto">
+        <h1 class="app-page-title mb-0">Lista de consultas</h1>
+    </div>
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                <div class="col-auto">
+                    <form class="table-search-form row gx-1 align-items-center">
+                        <div class="col-auto">
+                            <input type="text" id="search-orders" name="searchorders" class="form-control search-orders"
+                                placeholder="Buscar">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn app-btn-secondary">Buscar</button>
+                        </div>
+                    </form>
+
+                </div><!--//col-->
+            </div><!--//row-->
+        </div><!--//table-utilities-->
+    </div><!--//col-auto-->
+</div><!--//row-->
+
+<nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
+    <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-bs-toggle="tab" href="#orders-all"
+        role="tab" aria-controls="orders-all" aria-selected="true">Todas</a>
+</nav>
+
+
+<div class="tab-content" id="orders-table-tab-content">
+    <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+        <div class="app-card app-card-orders-table shadow-sm mb-5">
+            <div class="app-card-body">
+                <div class="table-responsive">
+                    <table class="table app-table-hover mb-0 text-left">
+                        <thead>
+                            <tr>
+                                <th class="cell">Dato</th>
+                                <th class="cell">Título</th>
+                                <th class="cell">Fecha</th>
+                                <th class="cell">Estatus</th>
+                                <th class="cell">Veracidad</th>
+                                <th class="cell">Publicada</th>
+                                <th class="cell"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for new_val in news %}
+                            <tr>
+                                <td class="cell">#{{ new_val.id }}</td>
+                                <td class="cell"><span class="truncate">{{ new_val.title }}</span></td>
+                                <td class="cell"><span>{{ new_val.created_at }}</span>
+                                    <!-- <span class="note">2:16 PM</span> -->
+                                </td>
+                                <td class="cell">
+                                    {% if new_val.status == 0 %}
+                                        <span class="badge bg-warning">Pendiente</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Analizada</span>
+                                    {% endif %}
+                                    <!-- <span class="badge bg-warning">Pending</span>
+                                    <span class="badge bg-danger">Cancelled</span> -->
+                                </td>
+                                <td class="cell">
+                                    {% if new_val.percentage != None %}
+                                        {% if new_val.percentage == 0 %}
+                                            <span class="badge bg-danger">Puede ser falsa</span>
+                                        {% else %}
+                                            <span class="badge bg-success">Tiende a verdadera</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="form-check form-switch">
+										<input new_id="{{ new_val.id }}" class="form-check-input checkbox-public" type="checkbox" id="settings-switch-1" {% if new_val.public %}checked{% endif %}>
+                                        <!-- checked -->
+									</div>
+                                </td>
+                                <td class="cell">
+                                    <a class="btn-sm app-btn-secondary" href="/new/detail/{{ new_val.id }}/">Ver</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div><!--//table-responsive-->
+
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+        <nav class="app-pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div><!--//tab-pane-->
+</div><!--//tab-content-->
+
+
+{% endblock %}
+{% block js %}
+<script>
+    $(document).on('change', '.checkbox-public', function(){
+        var id = $(this).attr('new_id');
+        var val = 0;
+        if(this.checked) {
+            var val = 1;
+        }
+
+        $.ajax({
+			type: "POST",
+			url: "/new/public/state/",
+			data: {'id': id, 'state': val},
+			success: function (data) {
+                // console.log(data);
+			}
+		});
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+
+<!-- CSS -->
+
+{% endblock %}
+{% block main %}
+
+<h1 class="app-page-title">Crear</h1>
+<!-- {{ session }} -->
+<hr class="mb-4">
+<div class="row g-4 settings-section">
+    <div class="col-12 col-md-4">
+        <h3 class="section-title">General</h3>
+        <div class="section-intro">Settings section intro goes here. Lorem ipsum dolor sit amet, consectetur adipiscing
+            elit.
+        </div>
+    </div>
+    <div class="col-12 col-md-8">
+        <div class="app-card app-card-settings shadow-sm p-4">
+            <div class="app-card-body">
+                <form class="settings-form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="setting-input-1" class="form-label">Título</label>
+                        <input name="title" type="text" class="form-control" id="setting-input-1" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="setting-input-2" class="form-label">Tipo de Noticia</label>
+                        <select name="type" id="setting-input-2" class="form-select" required>
+                            <option selected="" value="">Seleccionar</option>
+                            <option value="Política">Política</option>
+                            <option value="Deporte">Deporte</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="setting-input-3" class="form-label">Origen</label>
+                        <input name="origin" type="text" class="form-control" id="setting-input-3" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="setting-input-4" class="form-label">Contenido</label>
+                        <textarea name="text" class="form-control" id="setting-input-4" style="height: 150px;" required></textarea>
+                    </div>
+                    <button type="submit" class="btn app-btn-primary">Subir Noticia</button>
+                </form>
+            </div><!--//app-card-body-->
+
+        </div><!--//app-card-->
+    </div>
+</div><!--//row-->
+<hr class="my-4">
+
+
+{% endblock %}
+{% block js %}
+
+<!-- SCRIPTS -->
+
+{% endblock %}

@@ -45,7 +45,7 @@ class News(models.Model):
         Origin, on_delete=models.CASCADE
     )
     public = models.BooleanField(default=False)
-    percentage = models.IntegerField()
+    percentage = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField()
     state = models.BooleanField(default=True)
@@ -82,9 +82,9 @@ class Content(models.Model):
     media = models.ForeignKey(
         Media, on_delete=models.CASCADE
     )
-    data = models.TextField()
+    data = models.TextField(null=True)
     file_path = models.FileField(upload_to=content_directory_path, null=True, blank=True)
-    result = models.TextField()
+    result = models.TextField(null=True)
 
     def __str__(self):
         return self.result
