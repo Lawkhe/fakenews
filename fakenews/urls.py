@@ -17,6 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from fakenews.controllers import site, new, dashboard
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', site.login),
@@ -29,6 +32,7 @@ urlpatterns = [
     path('new/create/', new.create),
     path('new/detail/<int:pk>/', new.detail),
     path('new/public/state/', new.public_change),
+    path('new/public/list/', new.public_list),
     path('dashboard/', dashboard.chart),
     path('dashboard/data/<int:option>/', dashboard.get_data),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

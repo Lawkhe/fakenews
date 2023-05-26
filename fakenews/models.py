@@ -73,7 +73,7 @@ class Media(models.Model):
         return self.name
 
 def content_directory_path(instance, filename):
-    return 'static/upload/content/{0}/{1}'.format(instance.news.id, filename)
+    return 'content/{0}/{1}'.format(instance.news.id, filename)
 
 class Content(models.Model):
     news = models.ForeignKey(

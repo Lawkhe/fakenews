@@ -3,6 +3,17 @@
 {% block head %}
 
 <!-- CSS -->
+<style>
+    .video-size {
+        width: 500px;
+    }
+
+    @media screen and (max-width: 600px) {
+        .video-size {
+            width: 100%;
+        }
+    }
+</style>
 
 {% endblock %}
 {% block main %}
@@ -42,10 +53,46 @@
             <div class="item border-bottom py-3">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-auto">
+                    {% if content.media_name == 'text' %}
                         <div class="item-label"><strong>{{ content.media.name }}</strong></div>
                         <div class="item-data" style="margin-top: 15px;">
                             {{ content.data }}
                         </div>
+                    {% elif content.media_name == 'audio' %}
+                        <audio controls>
+                            <source src="/upload/{{ content.file_path }}" type="audio/mpeg">
+                        </audio>
+                        <div class="item-label"><strong>Transcripción<nav></nav></strong></div>
+                        <div class="item-data" style="margin-top: 15px;">
+                            {{ content.data }}
+                        </div>
+                    {% elif content.media_name == 'video' %}
+                        <video controls class="video-size">
+                            <source src="/upload/{{ content.file_path }}" type="audio/mpeg">
+                        </video>
+                        <div class="item-label"><strong>Información Video<nav></nav></strong></div>
+                        <div class="item-data" style="margin-top: 15px;">
+                            {% if content.data.indice_v == 1 %}
+                                Video sin anomalías.
+                            {% else %}
+                                El video tiene una calidad baja o sospechosa.
+                            {% endif %}
+                        </div>
+                        <br>
+                        <div class="item-label"><strong>Información Audio<nav></nav></strong></div>
+                        <div class="item-data" style="margin-top: 15px;">
+                            {% if content.data.indice_a == 1 %}
+                                Audio sin anomalías.
+                            {% else %}
+                                El audio del video tiene características anormales.
+                            {% endif %}
+                        </div>
+                        <br>
+                        <div class="item-label"><strong>Transcripción<nav></nav></strong></div>
+                        <div class="item-data" style="margin-top: 15px;">
+                            {{ content.data.text }}
+                        </div>
+                    {% endif %}
                     </div><!--//col-->
                     <!-- <div class="col text-end">
                         <a class="btn-sm app-btn-secondary" href="#">Change</a>
