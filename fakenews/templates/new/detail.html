@@ -13,6 +13,14 @@
             width: 100%;
         }
     }
+
+    .label-word {
+        border: 1px solid black;
+        border-radius: 15px;
+        display: inline-block;
+        padding: 6px;
+        margin: 5px;
+    }
 </style>
 
 {% endblock %}
@@ -40,15 +48,23 @@
                     <h4 class="app-card-title">{{ new.title }}</h4>
                 </div><!--//col-->
                 <div class="col-auto">
-                    {% if new.percentage == 0 %}
-                        <span class="badge bg-danger">Puede ser falsa</span>
+                    {% if new.status != 0 %}
+                        {% if new.percentage == 0 %}
+                            <span class="badge bg-danger">Puede ser falsa</span>
+                        {% else %}
+                            <span class="badge bg-success">Tiende a verdadera</span>
+                        {% endif %}
                     {% else %}
-                        <span class="badge bg-success">Tiende a verdadera</span>
+                        <span class="badge bg-warning">Pendiente</span>
                     {% endif %}
                 </div>
             </div><!--//row-->
         </div><!--//app-card-header-->
         <div class="app-card-body px-4 w-100">
+            {% if new.status == 0 %}
+                <h6>Esperando análisis de video:</h6>
+                <div id="progress"></div>
+            {% endif %}
             {% for content in contents %}
             <div class="item border-bottom py-3">
                 <div class="row justify-content-between align-items-center">
@@ -76,6 +92,18 @@
                                 Video sin anomalías.
                             {% else %}
                                 El video tiene una calidad baja o sospechosa.
+                            {% endif %}
+                        </div>
+                        <div class="item-data" style="margin-top: 15px;">
+                            {% if content.data.labels != None %}
+                                {% for label in content.data.labels %}
+                                    <label class="label-word">{{ label }}</label>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="item-data" style="margin-top: 5px;">
+                            {% if content.data.paragraph_activities != '' %}
+                                <label class="label-word">{{ content.data.paragraph_activities }}</label>
                             {% endif %}
                         </div>
                         <br>
@@ -112,6 +140,49 @@
 {% endblock %}
 {% block js %}
 
-<!-- SCRIPTS -->
+<script src="{% static 'js/jquery.progressBarTimer.js' %}" type="text/javascript" charset="utf-8"></script>
 
+<script>
+    $(document).ready(function() {
+        var status = "{{ new.status }}";
+
+        if (status == '0') {
+            $('#progress').progressBarTimer({ 
+                // autoStart: true,
+                timeLimit: 15,
+                smooth: true,
+                label: { show: true, type: 'percent' },
+                warningStyle: 'bg-info',
+                completeStyle: 'bg-success',
+                // onFinish: function() { alert('That\'s all folks'); }
+            });
+            $('#progress').progressBarTimer().start();
+            setTimeout(() => {
+                $('#progress').progressBarTimer().stop();
+            }, 2000);
+
+            setInterval(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "/new/detail/status/{{ new.id }}/",
+                    success: function (data) {
+                        console.log(data);
+                        if(data['message'] == "OK" && data['status'] != 0) {
+                            $('#progress').progressBarTimer().stop();
+                            $('#progress').progressBarTimer().finish();
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 3000);
+                        } else {
+                            $('#progress').progressBarTimer().start();
+                            setTimeout(() => {
+                                $('#progress').progressBarTimer().stop();
+                            }, 2000);
+                        }
+                    }
+                });
+            }, 30000);
+        }
+    });
+</script>
 {% endblock %}

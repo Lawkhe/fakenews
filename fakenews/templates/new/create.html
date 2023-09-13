@@ -13,6 +13,7 @@
         }
     }   
 </style>
+<link rel="stylesheet" href="{% static 'css/waitMe.css' %}">
 
 {% endblock %}
 {% block main %}
@@ -28,9 +29,9 @@
         </div>
     </div>
     <div class="col-12 col-md-8">
-        <div class="app-card app-card-settings shadow-sm p-4">
+        <div id="app_card" class="app-card app-card-settings shadow-sm p-4">
             <div class="app-card-body">
-                <form class="settings-form" method="POST" enctype="multipart/form-data">
+                <form id="form-news" class="settings-form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="setting-input-1" class="form-label">Título</label>
@@ -113,9 +114,25 @@
 {% endblock %}
 {% block js %}
 
+<script src="{% static 'js/waitMe.js' %}" type="text/javascript" charset="utf-8"></script>
 <script>
     var audio_val = false;
     var video_val = false;
+
+    $("#form-news").submit(function(){
+        $('#app_card').waitMe({
+            effect : 'roundBounce',
+            text : '',
+            bg : '#4653a12e',
+            color : '#000',
+            maxSize : '',
+            waitTime : -1,
+            textPos : 'vertical',
+            fontSize : '',
+            source : '',
+            onClose : function() {}
+        });
+    });
 
     $("#input-audio").change(function(){
         if (this.files.length == 0) {

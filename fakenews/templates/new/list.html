@@ -19,7 +19,7 @@
                 <div class="col-auto">
                     <form class="table-search-form row gx-1 align-items-center">
                         <div class="col-auto">
-                            <input type="text" id="search-orders" name="searchorders" class="form-control search-orders"
+                            <input type="text" id="search-orders" name="searchnews" class="form-control search-orders"
                                 placeholder="Buscar">
                         </div>
                         <div class="col-auto">
@@ -101,15 +101,17 @@
         </div><!--//app-card-->
         <nav class="app-pagination">
             <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
+                <!-- <li class="page-item disabled">
                     <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
+                </li> -->
+                {% for i in x_page %}
+                    <li class="page-item {% if page == i %}active{% endif %}">
+                        <a class="page-link" href="{% if searchnews != '' %}?searchnews={{ searchnews }}&page={{ i }}{% else %}?page={{ i }}{% endif %}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                <!-- <li class="page-item">
                     <a class="page-link" href="#">Next</a>
-                </li>
+                </li> -->
             </ul>
         </nav>
 

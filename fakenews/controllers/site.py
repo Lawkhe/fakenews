@@ -10,7 +10,7 @@ import json
 def login(request, code=None):
     # Valida si ya inicio sesión
     if 'user' in request.session:
-        return HttpResponseRedirect("/index/")
+        return HttpResponseRedirect("/new/public/list/")
     response = {}
     response['email'] = ''
     if request.method == "POST":
@@ -47,7 +47,7 @@ def login(request, code=None):
                                     'rol_name': user_val.rol.name,
                                 }
                                 response['session'] = request.session['user']
-                                return HttpResponseRedirect('/index/')
+                                return HttpResponseRedirect('/new/public/list/')
                             else:
                                 response['status'] = 'fail'
                                 response['message'] = 'Clave incorrecta'

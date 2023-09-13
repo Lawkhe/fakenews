@@ -31,6 +31,7 @@ urlpatterns = [
     path('new/list/', new.list),
     path('new/create/', new.create),
     path('new/detail/<int:pk>/', new.detail),
+    path('new/detail/status/<int:pk>/', new.get_status),
     path('new/public/state/', new.public_change),
     path('new/public/list/', new.public_list),
     path('dashboard/', dashboard.chart),
