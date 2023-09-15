@@ -50,9 +50,9 @@
                 <div class="col-auto">
                     {% if new.status != 0 %}
                         {% if new.percentage == 0 %}
-                            <span class="badge bg-danger">Puede ser falsa</span>
+                            <span style="font-size: 18px;" class="badge bg-danger">Puede ser falsa</span>
                         {% else %}
-                            <span class="badge bg-success">Tiende a verdadera</span>
+                            <span style="font-size: 18px;" class="badge bg-success">Tiende a verdadera</span>
                         {% endif %}
                     {% else %}
                         <span class="badge bg-warning">Pendiente</span>
@@ -145,6 +145,7 @@
 <script>
     $(document).ready(function() {
         var status = "{{ new.status }}";
+        var percentage = "{{ new.percentage }}";
 
         if (status == '0') {
             $('#progress').progressBarTimer({ 
@@ -182,6 +183,12 @@
                     }
                 });
             }, 30000);
+        } else {
+            if (percentage == '0') {
+                $('#app-header-content').css("border-bottom", "3px solid red");
+            } else {
+                $('#app-header-content').css("border-bottom", "3px solid #15a362");
+            }
         }
     });
 </script>
