@@ -29,6 +29,9 @@ import math
 import boto3
 import io
 
+import nltk
+nltk.download('stopwords')
+
 def list(request):
     if 'user' in request.session:
         req_data = request.GET
