@@ -27,7 +27,7 @@ class Type(models.Model):
         return self.name
     
 class Origin(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=200)
     state = models.BooleanField(default=True)
 
     def __str__(self):
@@ -37,7 +37,7 @@ class News(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE
     )
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=100)
     type = models.ForeignKey(
         Type, on_delete=models.CASCADE
     )
