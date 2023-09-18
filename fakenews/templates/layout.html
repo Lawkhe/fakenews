@@ -11,7 +11,9 @@
 
 	<meta name="description" content="Fake News">
 	<meta name="author" content="Xiaoying Riley at 3rd Wave Media">
-	<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon16.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon32.png' %}">
 
 	<!-- FontAwesome JS-->
 	<script defer src="{% static 'plugins/fontawesome/js/all.min.js' %}"></script>
@@ -137,8 +139,8 @@
 										<div class="item p-3">
 											<div class="row gx-2 justify-content-between align-items-center">
 												<div class="col-auto">
-													<img class="profile-image"
-														src="assets/images/profiles/profile-1.png" alt="">
+													<!-- <img class="profile-image"
+														src="assets/images/profiles/profile-1.png" alt=""> -->
 												</div><!--//col-->
 												<div class="col">
 													<div class="info">
@@ -199,8 +201,8 @@
 										<div class="item p-3">
 											<div class="row gx-2 justify-content-between align-items-center">
 												<div class="col-auto">
-													<img class="profile-image"
-														src="assets/images/profiles/profile-2.png" alt="">
+													<!-- <img class="profile-image"
+														src="assets/images/profiles/profile-2.png" alt=""> -->
 												</div><!--//col-->
 												<div class="col">
 													<div class="info">
@@ -247,7 +249,7 @@
 					<ul class="app-menu list-unstyled accordion" id="menu-accordion">
 						<li class="nav-item">
 							<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-							<a id="option_index_" class="nav-link" href="/index">
+							<a id="option_menu_new_public_list_" class="nav-link" href="/new/public/list">
 								<span class="nav-icon">
 									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door"
 										fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -262,7 +264,7 @@
 						</li><!--//nav-item-->
 						<li class="nav-item">
 							<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-							<a id="option_dashboard_" class="nav-link" href="/dashboard">
+							<a id="option_menu_dashboard_" class="nav-link" href="/dashboard">
 								<span class="nav-icon">
 									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bar-chart-line"
 										fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -300,26 +302,12 @@
 							</a><!--//nav-link-->
 							<div id="submenu-1" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
 								<ul class="submenu-list list-unstyled">
-									<li class="submenu-item"><a id="option_new_create_" class="submenu-link" href="/new/create">Agregar</a>
+									<li class="submenu-item"><a id="option_menu_new_create_" class="submenu-link" href="/new/create">Agregar</a>
 									</li>
-									<li class="submenu-item"><a id="option_new_list_" class="submenu-link" href="/new/list">Listar</a>
+									<li class="submenu-item"><a id="option_menu_new_list_" class="submenu-link" href="/new/list">Listar</a>
 									</li>
 								</ul>
 							</div>
-						</li><!--//nav-item-->
-						
-						<li class="nav-item">
-							<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-							<a id="option_new_public_list_" class="nav-link" href="/new/public/list/">
-								<span class="nav-icon">
-									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap"
-										fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd"
-											d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z" />
-									</svg>
-								</span>
-								<span class="nav-link-text">Publicaciones</span>
-							</a><!--//nav-link-->
 						</li><!--//nav-item-->
 					</ul><!--//app-menu-->
 				</nav><!--//app-nav-->
@@ -366,19 +354,22 @@
 		$(document).ready(function() {
 			var URLactual = window.location.pathname.trim();
 			var opcion = "option" + URLactual.replace(/\//g, "_").replace(/[0-9]/g, "");
-			// console.log(opcion);
+			var opcion_menu = "option_menu" + URLactual.replace(/\//g, "_").replace(/[0-9]/g, "");
 
 			if (opcion == "option_new_detail__") {
 				opcion = "option_new_list_";
+				opcion_menu = "option_menu_new_list_";
 			}
 
-			if ($('#' + opcion).hasClass('nav-link')) {
-				$('#' + opcion).addClass('active');
+			$('#' + opcion).addClass('active');
+
+			if ($('#' + opcion_menu).hasClass('nav-link')) {
+				$('#' + opcion_menu).addClass('active');
 			} else {
-				$('#' + opcion).addClass('active');
-				if ($('#' + opcion).hasClass('submenu-link')) {
-					$('#' + opcion).parent().parent().parent().parent().children().addClass('active');
-					$('#' + opcion).parent().parent().parent().parent().children().children().click();
+				$('#' + opcion_menu).addClass('active');
+				if ($('#' + opcion_menu).hasClass('submenu-link')) {
+					$('#' + opcion_menu).parent().parent().parent().parent().children().addClass('active');
+					$('#' + opcion_menu).parent().parent().parent().parent().children().children().click();
 				}
 			}
 		});

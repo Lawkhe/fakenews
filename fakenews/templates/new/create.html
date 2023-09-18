@@ -18,14 +18,93 @@
 {% endblock %}
 {% block main %}
 
-<h1 class="app-page-title">Crear</h1>
+<h1 class="app-page-title">Analizar</h1>
 <!-- {{ session }} -->
 <hr class="mb-4">
 <div class="row g-4 settings-section">
     <div class="col-12 col-md-4">
         <h3 class="section-title">General</h3>
         <div class="section-intro">
-            Crea la noticia aquí para determinar si es falsa o verdadera.
+            Analiza la noticia aquí para determinar si puede ser falsa o verdadera.
+            <div class="row" style="text-align: center; margin-top: 15px;">
+
+                <div class="col-12 col-lg-12" style="margin-top: 15px;">
+                    <div class="app-card app-card-basic d-flex flex-column align-items-start shadow-sm">
+                        <div style="text-align: center;">
+                            <img style="width: 70%;" src="{% static 'images/step_one.png' %}" alt="">
+                        </div>
+                        <div style="margin: 30px;">
+                            <label for="">
+                                <b>Completa los Campos: </b>Llena los campos con información clave, 
+                                como el título de la noticia, el tipo de noticia (por ejemplo, 
+                                política, deportes, etc.), su origen (fuente), el contenido 
+                                de la noticia y, si es aplicable, adjunta un archivo de 
+                                audio o video relacionado.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-lg-6" style="margin-top: 15px;">
+                    <div class="app-card app-card-basic d-flex flex-column align-items-start shadow-sm">
+                        <div style="text-align: center;">
+                            <img style="width: 100%;" src="{% static 'images/step_two.png' %}" alt="">
+                        </div>
+                        <div style="margin-bottom: 15px; width: 100%; text-align: center;">
+                            <label for="">
+                                <b>Analiza la Noticia</b>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6" style="margin-top: 15px;">
+                    <div class="app-card app-card-basic d-flex flex-column align-items-start shadow-sm">
+                        <div style="text-align: center;">
+                            <img style="width: 100%;" src="{% static 'images/step_three.png' %}" alt="">
+                        </div>
+                        <div style="margin-bottom: 15px; width: 100%; text-align: center;">
+                            <label for="">
+                                <b>Espera los Resultados</b>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="col-12 col-lg-12" style="margin-top: 5px;">
+                    <div class="app-card app-card-basic d-flex flex-column align-items-start shadow-sm">
+                        <div style="text-align: center;">
+                            <img style="width: 50%;" src="{% static 'images/step_two.png' %}" alt="">
+                        </div>
+                        <div style="margin: 30px;">
+                            <label for="">
+                                <b>Analiza la Noticia: </b>La aplicación procesa automáticamente 
+                                los datos proporcionados, utilizando algoritmos avanzados 
+                                para comprender la noticia, su relevancia y contenido 
+                                multimedia, si se ha adjuntado.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-12" style="margin-top: 5px;">
+                    <div class="app-card app-card-basic d-flex flex-column align-items-start shadow-sm">
+                        <div style="text-align: center;">
+                            <img style="width: 50%;" src="{% static 'images/step_three.png' %}" alt="">
+                        </div>
+                        <div style="margin: 30px;">
+                            <label for="">
+                                <b>Espera los Resultados: </b>Después de un breve proceso de análisis, 
+                                espera a que la aplicación te muestre los resultados, que pueden 
+                                incluir información sobre la veracidad de la noticia, su categoría, 
+                                el tono del contenido y cualquier detalle importante detectado en 
+                                el audio o video, si se proporcionaron.
+                            </label>
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
         </div>
     </div>
     <div class="col-12 col-md-8">

@@ -401,7 +401,13 @@ def public_change(request):
 
 def public_list(request):
     if 'user' in request.session:
+        req_data = request.GET
+        
         news_values = News.objects.filter(public=True, state=True).order_by('-id')
+        searchnews = ''
+        if 'searchnews' in req_data:
+            searchnews = req_data['searchnews']
+            news_values = news_values.filter(title__icontains=searchnews)
 
         return render(request, 'new/public.html', 
             context={'session': request.session['user'], 'news': news_values})
