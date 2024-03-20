@@ -294,12 +294,17 @@ def label_detection(new_val, content_val, job_id, text_total, text_video):
             paragraph_activities = ""
             try:
                 if text_activities != "":
-                    print("Generate a sentence within the context that you consider given the following words: " + text_activities)
-                    bard = BardCookies(cookie_dict=cookie_dict)
-                    result = bard.get_answer("Generate a sentence within the context that you consider given the following words: " + text_activities + " (text)")
-                    print('result_::::::::::::::::::::')
-                    print(result)
-                    paragraph_activities = result['content']
+                    # print("Generate a sentence within the context that you consider given the following words: " + text_activities)
+                    # bard = BardCookies(cookie_dict=cookie_dict)
+                    # result = bard.get_answer("Generate a sentence within the context that you consider given the following words: " + text_activities + " (text)")
+                    # print('result_::::::::::::::::::::')
+                    # print(result)
+                    # paragraph_activities = result['content']
+
+                    paragraph_activities = ("The angry man in the suit, his American flag tie a bold contrast against his otherwise formal" +
+                        "attire, commanded attention as he stood amidst the crowd. His voice boomed, carrying his fervent" + 
+                        "message, while his flushed face betrayed the intensity of his emotions, accentuated by the crispness" + 
+                        "of his starched collar.")
             except:
                 pass
 
