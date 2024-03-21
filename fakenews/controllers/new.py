@@ -10,6 +10,7 @@ from moviepy.editor import VideoFileClip
 from threading import Thread
 # IA Google
 from bardapi import BardCookies
+from googletrans import Translator
 
 import time
 import speech_recognition
@@ -114,9 +115,15 @@ def create(request):
                     except Media.DoesNotExist:
                         media_val = Media()
                         media_val.name = 'text'
-                        media_val.save()
+                        media_val.save() 
 
-                    prediction = predict(data['text'])
+                    try:
+                        translator = Translator()
+                        data_text = translator.translate(data['text'], dest='en').text
+                    except:
+                        data_text = data['text']
+
+                    prediction = predict(data_text)
                     text_total += data['text']
 
                     content_val = Content()
@@ -147,7 +154,14 @@ def create(request):
 
                         # text = r.recognize_google(audio_text, language='es-ES')
                         text = r.recognize_google(audio_text, language='en-US')
-                        prediction = predict(text)
+
+                        try:
+                            translator = Translator()
+                            data_text = translator.translate(text, dest='en').text
+                        except:
+                            data_text = text
+
+                        prediction = predict(data_text)
                         
                         content_val.data = " " + text
                         content_val.result = prediction
@@ -179,8 +193,14 @@ def create(request):
                         # continue
                         indice_v = verificar_calidad_video('upload/' + str(content_val.file_path))
                         text, indice_a  = verificar_audio_video('upload/' + str(content_val.file_path))
-                        
-                        prediction_av = predict(text)
+      
+                        try:
+                            translator = Translator()
+                            data_text = translator.translate(text, dest='en').text
+                        except:
+                            data_text = text
+
+                        prediction_av = predict(data_text)
                         prediction = 0
                         print('prediction_av::::::::')
                         print(prediction_av)
